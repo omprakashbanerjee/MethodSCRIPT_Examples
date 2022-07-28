@@ -23,7 +23,7 @@ import palmsens.serial
 DEVICE_PORT = None
 
 # Location of MethodSCRIPT file to use.
-MSCRIPT_FILE_PATH = 'scripts/test_DPV1.mscr'
+MSCRIPT_FILE_PATH = 'scripts/test_CAmp1.mscr'
 
 # Location of output files. Directory will be created if it does not exist.
 OUTPUT_PATH = 'output'
@@ -66,7 +66,7 @@ def main():
 
     # Store results in file.
     os.makedirs(OUTPUT_PATH, exist_ok=True)
-    result_file_name = datetime.datetime.now().strftime('plot_dpv_%Y%m%d-%H%M%S.txt')
+    result_file_name = datetime.datetime.now().strftime('plot_ca_%Y%m%d-%H%M%S.txt')
     result_file_path = os.path.join(OUTPUT_PATH, result_file_name)
     with open(result_file_path, 'wt', encoding='ascii') as file:
         file.writelines(result_lines)
@@ -79,16 +79,16 @@ def main():
         for package in curve:
             LOG.info([str(value) for value in package])
 
-    # Get the applied potentials (first column of each row)
-    applied_potential = palmsens.mscript.get_values_by_column(curves, 0)
+    # Get the applied time (first column of each row)
+    applied_time = palmsens.mscript.get_values_by_column(curves, 0)
     # Get the measured currents (second column of each row)
     measured_current = palmsens.mscript.get_values_by_column(curves, 1)
 
     # Plot the results.
     plt.figure(1)
-    plt.plot(applied_potential, measured_current)
-    plt.title('DPV Curve')
-    plt.xlabel('Applied Potential (V)')
+    plt.plot(applied_time, measured_current)
+    plt.title('ChronoAmperometry')
+    plt.xlabel('Time (Sec)')
     plt.ylabel('Measured Current (A)')
     plt.grid(b=True, which='major')
     plt.grid(b=True, which='minor', color='b', linestyle='-', alpha=0.2)
